@@ -113,6 +113,7 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
     // ----------------------------------------------------------------------------
     // ANKI METHODS
     // ----------------------------------------------------------------------------
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCollectionLoaded(col: Collection) {
         super.onCollectionLoaded(col)
         collection = col
@@ -127,6 +128,7 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
      * Sets up the main ListView and ArrayAdapters
      * Containing clickable labels for the fields
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun createFieldLabels() {
         val fieldLabelAdapter = ArrayAdapter(this, R.layout.model_field_editor_list_item, fieldLabels!!)
         fieldLabelView?.let {
@@ -183,6 +185,7 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
     /*
     * Creates a dialog to create a field
     */
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun addFieldDialog() {
         fieldNameInput = FixedEditText(this)
         fieldNameInput?.let {
@@ -279,6 +282,7 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
      * Creates a dialog to rename the currently selected field
      * Processing time is constant
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun renameFieldDialog() {
         fieldNameInput = FixedEditText(this)
         fieldNameInput?.let {
@@ -405,6 +409,7 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
     /*
      * Renames the current field
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     @Throws(ConfirmModSchemaException::class)
     private fun renameField() {
         val fieldLabel = fieldNameInput!!.text.toString()
@@ -452,6 +457,7 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
     /*
      * Reloads everything
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun fullRefreshList() {
         setupLabels()
         createFieldLabels()
@@ -490,6 +496,7 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
             }
         }
 
+        @RequiresApi(Build.VERSION_CODES.N)
         @KotlinCleanup("Convert result to non-null")
         override fun actualOnPostExecute(context: ModelFieldEditor?, result: Boolean?) {
             if (result == false) {
@@ -500,6 +507,7 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val itemId = item.itemId
         if (itemId == android.R.id.home) {
@@ -520,7 +528,7 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
         closeActivity()
     }
 
-    @KotlinCleanup("Add @RequiresApi instead of using check in if condition")
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private val mContextMenuListener = ListCallback { _: MaterialDialog?, _: View?, selection: Int, _: CharSequence? ->
         when (selection) {
             ModelEditorContextMenu.SORT_FIELD -> sortByField()
@@ -528,13 +536,9 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
             ModelEditorContextMenu.FIELD_DELETE -> deleteFieldDialog()
             ModelEditorContextMenu.FIELD_RENAME -> renameFieldDialog()
             ModelEditorContextMenu.FIELD_TOGGLE_STICKY -> toggleStickyField()
-            else -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    if (selection == ModelEditorContextMenu.FIELD_ADD_LANGUAGE_HINT) {
-                        Timber.i("displaying locale hint dialog")
-                        localeHintDialog()
-                    }
-                }
+            ModelEditorContextMenu.FIELD_ADD_LANGUAGE_HINT -> {
+                Timber.i("displaying locale hint dialog")
+                localeHintDialog()
             }
         }
     }
@@ -575,6 +579,7 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
         addField(fieldName, ChangeHandler(this), true)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     @Throws(ConfirmModSchemaException::class)
     fun renameField(fieldNameInput: EditText?) {
