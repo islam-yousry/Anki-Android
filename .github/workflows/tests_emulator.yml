@@ -124,12 +124,12 @@ jobs:
         run: |
           if ${{ steps.emu1.outcome=='success' || steps.emu2.outcome=='success' || steps.emu3.outcome=='success' }}; then
              echo "Emulator Started"
-          else
-             uses: actions/github-script@v3
-               with:
-                 script: |
-                     core.setFailed('Emulator tests are currently flaky. If you did not do change emulator tests, you can probably ignore the failure; a maintainer will restart the test or let you know if you actually need to make some change to your PR.')
-          fi
+        else
+        uses: actions/github-script@v3
+        with:
+          script: |
+            core.setFailed('Emulator tests are currently flaky. If you did not do change emulator tests, you can probably ignore the failure; a maintainer will restart the test or let you know if you actually need to make some change to your PR.')
+        fi
 
       - name: Emulator Test
         timeout-minutes: 40
