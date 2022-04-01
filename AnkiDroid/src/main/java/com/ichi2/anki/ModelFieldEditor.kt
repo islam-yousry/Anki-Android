@@ -529,11 +529,9 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
             ModelEditorContextMenu.FIELD_RENAME -> renameFieldDialog()
             ModelEditorContextMenu.FIELD_TOGGLE_STICKY -> toggleStickyField()
             else -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    if (selection == ModelEditorContextMenu.FIELD_ADD_LANGUAGE_HINT) {
-                        Timber.i("displaying locale hint dialog")
-                        localeHintDialog()
-                    }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && selection == ModelEditorContextMenu.FIELD_ADD_LANGUAGE_HINT) {
+                    Timber.i("displaying locale hint dialog")
+                    localeHintDialog()
                 }
             }
         }
