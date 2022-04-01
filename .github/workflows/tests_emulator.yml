@@ -133,8 +133,8 @@ jobs:
         if: emulator_failed==true
         uses: actions/github-script@v3
         with:
-            script: |
-              core.setFailed('Emulator tests are currently flaky. If you did not do change emulator tests, you can probably ignore the failure; a maintainer will restart the test or let you know if you actually need to make some change to your PR.')
+          script: |
+            core.setFailed('Emulator tests are currently flaky. If you did not do change emulator tests, you can probably ignore the failure; a maintainer will restart the test or let you know if you actually need to make some change to your PR.')
 
       - name: Emulator Test
         timeout-minutes: 40
