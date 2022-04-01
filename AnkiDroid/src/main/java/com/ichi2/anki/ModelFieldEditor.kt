@@ -530,6 +530,7 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
             ModelEditorContextMenu.FIELD_TOGGLE_STICKY -> toggleStickyField()
             else -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
                     if (selection == ModelEditorContextMenu.FIELD_ADD_LANGUAGE_HINT) {
                         Timber.i("displaying locale hint dialog")
                         localeHintDialog()
