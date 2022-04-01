@@ -159,7 +159,7 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
      * @param fieldNameInput Editor to get the input
      * @return The value to use, or null in case of failure
      */
-    private fun uniqueName(fieldNameInput: EditText): String? {
+    private fun uniqueName(fieldNameInput: EditText): String {
         var input = fieldNameInput.text.toString()
             .replace("[\\n\\r{}:\"]".toRegex(), "")
         // The number of #, ^, /, space, tab, starting the input
@@ -173,11 +173,11 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
         input = input.substring(offset).trim { it <= ' ' }
         if (input.isEmpty()) {
             showThemedToast(this, resources.getString(R.string.toast_empty_name), true)
-            return null
+            return ""
         }
         if (containsField(input)) {
             showThemedToast(this, resources.getString(R.string.toast_duplicate_field), true)
-            return null
+            return ""
         }
         return input
     }
@@ -227,12 +227,8 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
     }
 
     @Throws(ConfirmModSchemaException::class)
-    @KotlinCleanup("Check if we can make fieldName non-null")
-    private fun addField(fieldName: String?, listener: ChangeHandler, modSchemaCheck: Boolean) {
-        if (fieldName == null) {
-            return
-        }
-        // Name is valid, now field is added
+    private fun addField(fieldName: String, listener: ChangeHandler, modSchemaCheck: Boolean) {
+        if (fieldName.isEmpty()) return
         if (modSchemaCheck) {
             collection!!.modSchema()
         } else {
@@ -293,7 +289,7 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
                 .title(R.string.model_field_editor_rename)
                 .positiveText(R.string.rename)
                 .onPositive { _: MaterialDialog?, _: DialogAction? ->
-                    if (uniqueName(it) == null) {
+                    if (uniqueName(it).isEmpty()) {
                         return@onPositive
                     }
                     // Field is valid, now rename
