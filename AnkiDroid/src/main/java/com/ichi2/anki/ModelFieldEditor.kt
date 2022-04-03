@@ -464,12 +464,7 @@ class ModelFieldEditor : AnkiActivity(), LocaleSelectionDialogHandler {
      */
     @KotlinCleanup("Stream/extension function")
     private fun containsField(field: String): Boolean {
-        for (s in fieldLabels!!) {
-            if (field.compareTo(s) == 0) {
-                return true
-            }
-        }
-        return false
+        return fieldLabels!!.contains(field)
     }
 
     // ----------------------------------------------------------------------------
